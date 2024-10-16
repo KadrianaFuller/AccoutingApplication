@@ -2,12 +2,14 @@ package com.Pluralsight;
 
 public class Transactions {
 
+    // defines the class " Transactions"
     private String date;
     private String time;
     private String description;
     private String vendor;
     private Double amount;
 
+    // all fields will be passed through the constructors
     public Transactions(String date, String time, String description, String vendor, Double amount) {
         this.date = date;
         this.time = time;
@@ -16,6 +18,7 @@ public class Transactions {
         this.amount = amount;
     }
 
+    // Getters return a value. Setters allows you to set the value
     public String getDate() {
         return date;
     }
@@ -57,7 +60,7 @@ public class Transactions {
     }
 
     @Override
-    public String toString() {
+    public String toString() { // This is used for formating so it can be read easily
         return "Transactions{" +
                 "date='" + date + '\'' +
                 ", time='" + time + '\'' +
