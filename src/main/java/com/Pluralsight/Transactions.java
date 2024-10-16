@@ -60,13 +60,11 @@ public class Transactions {
     }
 
     @Override
-    public String toString() { // This is used for formating so it can be read easily
-        return "Transactions{" +
-                "date='" + date + '\'' +
-                ", time='" + time + '\'' +
-                ", description='" + description + '\'' +
-                ", vendor='" + vendor + '\'' +
-                ", amount=" + amount +
-                '}';
+    public String toString() {
+        return date + "|" + time + "|" + description + "|" + vendor + "|" + amount;
+    }
+
+    public void add(Transactions actions) {
+        return;
     }
 }
