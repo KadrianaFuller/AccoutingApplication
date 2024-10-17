@@ -1,5 +1,5 @@
 package com.Pluralsight;
-
+ // ALL THESE ARE IMPORTED SO I CAN USE
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -23,8 +23,8 @@ public class Main {
                     2. Make a Payment
                     3. Display Ledger
                     4. Exit
-                    Please select an option:""");
-            options = in.nextInt();
+                    Please select an option: """);
+            options = Integer.parseInt(in.nextLine()); // used to make sure an extra line never comes up
 
             switch (options){
                 case 1:
@@ -34,7 +34,7 @@ public class Main {
                     makePayment(in);
                     break;
                 case 3:
-                    displayLedger();
+                    displayLedger(in);
                     break;
                 case 4:
                     System.out.println("Exit");
@@ -48,7 +48,7 @@ public class Main {
     }
     // Add deposit method to be used when user press 1. Which was initialized in the main.
     public static void addDeposit(Scanner in) {
-        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime now = LocalDateTime.now(); // gets current date and time
         System.out.print("Enter Description: ");
         String description = in.next();
         System.out.print("Enter Vendor: ");
@@ -82,11 +82,23 @@ public class Main {
     }
 
 
-    public static void displayLedger() {
+    public static void displayLedger(Scanner in) {
+        System.out.print("""
+                Ledger Home Screen
+                What would you like to do:
+                (A) Display all Entries
+                (D) Display Deposits
+                (P) Display Payments
+                (R) Display Reports
+                (H) Go Home
+                Please select an option""");
+
+        in.nextLine();
+
     }
 
     public static void makePayment(Scanner in) {
-        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime now = LocalDateTime.now(); // used this so that the date and time auto populated
         System.out.print("Enter Description: ");
         String description = in.next();
         System.out.print("Enter Vendor: ");
