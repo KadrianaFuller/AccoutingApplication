@@ -3,6 +3,8 @@ package com.Pluralsight;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner; // imported so I can use my scanner
 
@@ -46,10 +48,7 @@ public class Main {
     }
     // Add deposit method to be used when user press 1. Which was initialized in the main.
     public static void addDeposit(Scanner in) {
-        System.out.print("Enter Date (YYY-MM-DD): ");
-        String date = in.next();
-        System.out.print("Enter Time (HH:MM:SS): ");
-        String time = in.next();
+        LocalDateTime now = LocalDateTime.now();
         System.out.print("Enter Description: ");
         String description = in.next();
         System.out.print("Enter Vendor: ");
@@ -58,7 +57,7 @@ public class Main {
         Double amount = in.nextDouble();
 
       // Transactions object that will allow me to use transactions class
-        Transactions actions = new Transactions(date,time,description,vendor,amount);
+        Transactions actions = new Transactions(now.format(DateTimeFormatter.ofPattern("YYYY-MM_DD")), now.format(DateTimeFormatter.ofPattern("HH:MM:SS")), description,vendor,amount);
         actions.add(actions);
         try {
             saveTransaction(actions);
@@ -72,7 +71,7 @@ public class Main {
     // Method that will allow me to save my entries to my csv
     public static void saveTransaction(Transactions transaction) throws IOException {
         // writing to file
-        try (FileWriter fileWriter = new FileWriter("transactions.csv", true);
+        try (FileWriter fileWriter = new FileWriter("src/main/resources/transactions.csv", true);
              BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
             bufferedWriter.write(transaction.toString());
 
@@ -87,10 +86,7 @@ public class Main {
     }
 
     public static void makePayment(Scanner in) {
-        System.out.print("Enter Date (YYY-MM-DD): ");
-        String date = in.next();
-        System.out.print("Enter Time (HH:MM:SS): ");
-        String time = in.next();
+        LocalDateTime now = LocalDateTime.now();
         System.out.print("Enter Description: ");
         String description = in.next();
         System.out.print("Enter Vendor: ");
@@ -98,7 +94,7 @@ public class Main {
         System.out.print("Enter Amount: ");
         Double amount = in.nextDouble();
 
-        Transactions actions = new Transactions(date,time,description,vendor,amount);
+        Transactions actions = new Transactions(now.format(DateTimeFormatter.ofPattern("YYYY-MM_DD")), now.format(DateTimeFormatter.ofPattern("HH:MM:SS")), description, vendor, amount);
         actions.add(actions);
         try {
             saveTransaction(actions);
