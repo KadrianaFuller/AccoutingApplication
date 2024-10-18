@@ -6,9 +6,12 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Scanner; // imported so I can use my scanner
 
 public class Main {
+    public static ArrayList<Transactions> transactions;
+
     //  This line is my Access modifier, Return type , Identifier and the () is for the params
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in); // allows users input
@@ -25,6 +28,7 @@ public class Main {
                     4. Exit
                     Please select an option:""");
 
+        // options = in.nextInt();
          options = Integer.parseInt(in.nextLine()); // used to make sure an extra line never comes up
 
             switch (options){
@@ -58,10 +62,11 @@ public class Main {
         Double amount = in.nextDouble();
 
       // Transactions object that will allow me to use transactions class
-        Transactions actions = new Transactions(now.format(DateTimeFormatter.ofPattern("yyyy-MM_dd")), now.format(DateTimeFormatter.ofPattern("HH:mm:ss")), description,vendor,amount);
-        actions.add(actions);
+        // used DateTimeFormatter to format how I wanted my date and time to come out
+        Transactions actions = new Transactions(now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), now.format(DateTimeFormatter.ofPattern("HH:mm:ss")), description,vendor,amount);
+        actions.add(actions); // adds to transactions list
         try {
-            saveTransaction(actions);
+            saveTransaction(actions); // saves the transaction.
         } catch (IOException e) {
             ;
         }
@@ -80,7 +85,7 @@ public class Main {
 
             bufferedWriter.newLine();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Error saving. Try again.");
         }
     }
 
@@ -98,10 +103,55 @@ public class Main {
 
         in.nextLine();
 
+        String choice;
+        choice = in.nextLine().toUpperCase();
+        switch (choice){
+            case "A":
+                displayAll(in);
+                break;
+            case "D":
+                displayDeposit();
+                break;
+            case "P":
+                displayPayments();
+                break;
+            case "R":
+                displayReports();
+                break;
+
+            case "H": goHome();
+                break;
+            default:
+                System.out.println("Invalid choice. Try Again.");
+                displayLedger(in); // if they choose the wrong letter this will allow the prompt to start over
+
+            in.nextLine();;
+        }
+
+
+
     }
 
+    private static void goHome() {
+    }
+
+    private static void displayReports() {
+    }
+
+    private static void displayPayments() {
+    }
+
+    private static void displayDeposit() {
+    }
+
+    private static void displayAll(Scanner in) {
+
+
+    }
+
+
     public static void makePayment(Scanner in) {
-        LocalDateTime now = LocalDateTime.now(); // used this so that the date and time auto populated
+        LocalDateTime now = LocalDateTime.now(); // used this so that the date and time autopopulated
         System.out.print("Enter Description: ");
         String description = in.next();
         System.out.print("Enter Vendor: ");
@@ -114,7 +164,7 @@ public class Main {
         try {
             saveTransaction(actions);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println(" Error processing. Please try again");
         }
         System.out.println("Payment Successful");
         in.nextLine();
