@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Scanner; // imported so I can use my scanner
 
 public class Main {
@@ -78,6 +77,8 @@ public class Main {
     }
 
     // Method that will allow me to save my entries to my csv
+    // try with resources() is used to automatically close the resource even if an exception occured.
+    // Different from Try {} because this option you have to manually close by including a buffered.close
     public static void saveTransaction(Transactions transaction) throws IOException {
         // writing to file
         try (FileWriter fileWriter = new FileWriter("src/main/resources/transactions.csv", true);
