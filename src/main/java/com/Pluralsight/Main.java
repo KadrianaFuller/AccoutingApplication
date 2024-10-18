@@ -10,7 +10,7 @@ import java.util.Comparator;
 import java.util.Scanner; // imported so I can use my scanner
 
 public class Main {
-    public static ArrayList<Transactions> transactions;
+   // public static ArrayList<Transactions> transactions;
 
     //  This line is my Access modifier, Return type , Identifier and the () is for the params
     public static void main(String[] args) {
@@ -31,7 +31,7 @@ public class Main {
         // options = in.nextInt();
          options = Integer.parseInt(in.nextLine()); // used to make sure an extra line never comes up
 
-            switch (options){
+            switch (options){ // handles user chose and calls the different method
                 case 1:
                     addDeposit(in);
                     break;
@@ -42,7 +42,7 @@ public class Main {
                     displayLedger(in);
                     break;
                 case 4:
-                    System.out.println("Exit");
+                    System.exit(0);
                     break;
                 default:
                     System.out.println("Invalid Option. Please Try again.");
@@ -68,7 +68,8 @@ public class Main {
         try {
             saveTransaction(actions); // saves the transaction.
         } catch (IOException e) {
-            ;
+            System.out.println(" Error processing. Please try again");
+
         }
         System.out.println("Deposit Successful");
 
@@ -81,7 +82,7 @@ public class Main {
         // writing to file
         try (FileWriter fileWriter = new FileWriter("src/main/resources/transactions.csv", true);
              BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
-            bufferedWriter.write(transaction.toString());
+            bufferedWriter.write(transaction.toString()); // calling to the toString for format
 
             bufferedWriter.newLine();
         } catch (IOException e) {
@@ -159,7 +160,7 @@ public class Main {
         System.out.print("Enter Amount: ");
         Double amount = in.nextDouble();
 
-        Transactions actions = new Transactions(now.format(DateTimeFormatter.ofPattern("YYYY-MM-DD")), now.format(DateTimeFormatter.ofPattern("HH:MM:SS")), description, vendor, amount);
+        Transactions actions = new Transactions(now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), now.format(DateTimeFormatter.ofPattern("HH:mm:ss")), description, vendor, amount);
         actions.add(actions);
         try {
             saveTransaction(actions);
