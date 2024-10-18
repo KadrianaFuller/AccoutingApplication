@@ -23,8 +23,9 @@ public class Main {
                     2. Make a Payment
                     3. Display Ledger
                     4. Exit
-                    Please select an option: """);
-            options = Integer.parseInt(in.nextLine()); // used to make sure an extra line never comes up
+                    Please select an option:""");
+
+         options = Integer.parseInt(in.nextLine()); // used to make sure an extra line never comes up
 
             switch (options){
                 case 1:
@@ -57,14 +58,16 @@ public class Main {
         Double amount = in.nextDouble();
 
       // Transactions object that will allow me to use transactions class
-        Transactions actions = new Transactions(now.format(DateTimeFormatter.ofPattern("YYYY-MM_DD")), now.format(DateTimeFormatter.ofPattern("HH:MM:SS")), description,vendor,amount);
+        Transactions actions = new Transactions(now.format(DateTimeFormatter.ofPattern("yyyy-MM_dd")), now.format(DateTimeFormatter.ofPattern("HH:mm:ss")), description,vendor,amount);
         actions.add(actions);
         try {
             saveTransaction(actions);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            ;
         }
         System.out.println("Deposit Successful");
+
+        in.nextLine();
 
     }
 
@@ -91,7 +94,7 @@ public class Main {
                 (P) Display Payments
                 (R) Display Reports
                 (H) Go Home
-                Please select an option""");
+                Please select an option:""");
 
         in.nextLine();
 
@@ -106,7 +109,7 @@ public class Main {
         System.out.print("Enter Amount: ");
         Double amount = in.nextDouble();
 
-        Transactions actions = new Transactions(now.format(DateTimeFormatter.ofPattern("YYYY-MM_DD")), now.format(DateTimeFormatter.ofPattern("HH:MM:SS")), description, vendor, amount);
+        Transactions actions = new Transactions(now.format(DateTimeFormatter.ofPattern("YYYY-MM-DD")), now.format(DateTimeFormatter.ofPattern("HH:MM:SS")), description, vendor, amount);
         actions.add(actions);
         try {
             saveTransaction(actions);
@@ -114,6 +117,7 @@ public class Main {
             throw new RuntimeException(e);
         }
         System.out.println("Payment Successful");
+        in.nextLine();
 
     }
 
