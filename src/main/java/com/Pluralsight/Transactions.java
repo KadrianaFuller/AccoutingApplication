@@ -36,6 +36,10 @@ public class Transactions {
         this.amount = amount;
     }
 
+    // Default constructor (required by Hibernate)
+    public Transactions() {
+    }
+
     public Transactions(String description, String vendor, double amount) {
         this.date = LocalDate.now();
         this.time = LocalTime.now();

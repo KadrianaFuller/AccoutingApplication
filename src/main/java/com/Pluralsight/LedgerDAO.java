@@ -4,9 +4,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.List;
 
 public class LedgerDAO {
 
@@ -15,7 +12,7 @@ public class LedgerDAO {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
 
-        em.persist(transaction);
+        em.merge(transaction);
 
         em.getTransaction().commit();
         em.close();
