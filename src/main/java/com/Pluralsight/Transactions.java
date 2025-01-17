@@ -1,18 +1,48 @@
 package com.Pluralsight;
+import jakarta.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
+@Entity
+@Table(name = "transactions") // Specify the table name
 public class Transactions {
 
-    // defines the class " Transactions"
-    private String date;
-    private String time;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-generate ID
+    private Long id;
+
+    @Column(nullable = false) // Field cannot be null
+    private LocalDate date;
+
+    @Column(nullable = false)
+    private LocalTime time;
+
+    @Column(nullable = false)
     private String description;
+
+    @Column(nullable = false)
     private String vendor;
-    private Double amount;
+
+    @Column(nullable = false)
+    private double amount;
 
     // all fields will be passed through the constructors
     public Transactions(String date, String time, String description, String vendor, Double amount) {
-        this.date = date;
-        this.time = time;
+
+        this.date = LocalDate.parse(date);
+        this.time = LocalTime.parse(time);
+        this.description = description;
+        this.vendor = vendor;
+        this.amount = amount;
+    }
+
+    // Default constructor (required by Hibernate)
+    public Transactions() {
+    }
+
+    public Transactions(String description, String vendor, double amount) {
+        this.date = LocalDate.now();
+        this.time = LocalTime.now();
         this.description = description;
         this.vendor = vendor;
         this.amount = amount;
@@ -20,19 +50,19 @@ public class Transactions {
 
     // Getters return a value. Setters allows you to set the value
     public String getDate() {
-        return date;
+        return date.toString();
     }
 
     public void setDate(String date) {
-        this.date = date;
+        this.date = LocalDate.parse(date);
     }
 
     public String getTime() {
-        return time;
+        return time.toString();
     }
 
     public void setTime(String time) {
-        this.time = time;
+        this.time = LocalTime.parse(time);
     }
 
     public String getDescription() {
@@ -59,12 +89,14 @@ public class Transactions {
         this.amount = amount;
     }
 
+    public void add(Transactions actions) {
+        return;
+    }
+
     @Override
     public String toString() {
         return date + "|" + time + "|" + description + "|" + vendor + "|" + amount;
     }
 
-    public void add(Transactions actions) {
-        return;
-    }
+
 }

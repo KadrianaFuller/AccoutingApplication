@@ -26,7 +26,7 @@ public class ScreenManager {
                     Please select an option:""");
 
             // options = in.nextInt();
-            options = Integer.parseInt(in.nextLine()); // used to make sure an extra line never comes up
+            options = Integer.parseInt(in.nextLine().trim()); // used to make sure an extra line never comes up
 
             switch (options){ // handles user chose and calls the different method
                 case 1:
@@ -52,16 +52,17 @@ public class ScreenManager {
     public static void addDeposit(Scanner in) {
         LocalDateTime now = LocalDateTime.now(); // gets current date and time
         System.out.print("Enter Description: ");
-        String description = in.next();
+        String description = in.nextLine();
         System.out.print("Enter Vendor: ");
-        String vendor = in.next();
+        String vendor = in.nextLine();
         System.out.print("Enter Amount: ");
         Double amount = in.nextDouble();
 
         // Transactions object that will allow me to use transactions class
         // used DateTimeFormatter to format how I wanted my date and time to come out
         Transactions actions = new Transactions(now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), now.format(DateTimeFormatter.ofPattern("HH:mm:ss")), description,vendor,amount);
-        actions.add(actions); // adds to transactions list
+        actions.add(actions);// adds to transactions list
+        LedgerDAO.addToDatabase(actions);
         try {
             saveTransaction(actions); // saves the transaction.
         } catch (IOException e) {
@@ -82,8 +83,8 @@ public class ScreenManager {
         try (FileWriter fileWriter = new FileWriter("src/main/resources/transactions.csv", true);
              BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
             bufferedWriter.write(transaction.toString()); // calling to the toString for format
-
             bufferedWriter.newLine();
+            LedgerDAO.addToDatabase(transaction);
         } catch (IOException e) {
             System.out.println("Error saving. Try again.");
         }
@@ -316,9 +317,9 @@ public class ScreenManager {
     public static void makePayment(Scanner in) {
         LocalDateTime now = LocalDateTime.now(); // used this so that the date and time autopopulated
         System.out.print("Enter Description: ");
-        String description = in.next();
+        String description = in.nextLine();
         System.out.print("Enter Vendor: ");
-        String vendor = in.next();
+        String vendor = in.nextLine();
         System.out.print("Enter Amount: ");
         Double amount = in.nextDouble();
 
