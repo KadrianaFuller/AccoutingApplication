@@ -148,9 +148,7 @@ public class Main {
 
     private static void displayAll(Scanner in) {
 
-
     }
-
 
     public static void makePayment(Scanner in) {
         LocalDateTime now = LocalDateTime.now(); // used this so that the date and time autopopulated
