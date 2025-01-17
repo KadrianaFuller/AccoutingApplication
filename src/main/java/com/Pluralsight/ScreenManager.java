@@ -310,7 +310,6 @@ public class ScreenManager {
         displayLedger(in); // Return to the Ledger screen
 
 
-
     }
 
 
@@ -321,7 +320,7 @@ public class ScreenManager {
         System.out.print("Enter Vendor: ");
         String vendor = in.nextLine();
         System.out.print("Enter Amount: ");
-        Double amount = in.nextDouble();
+        Double amount = -1 * in.nextDouble();
 
         Transactions actions = new Transactions(now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), now.format(DateTimeFormatter.ofPattern("HH:mm:ss")), description, vendor, amount);
         actions.add(actions);
