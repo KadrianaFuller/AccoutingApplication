@@ -7,11 +7,12 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class ScreenManager {
 
-   public static ArrayList<Transactions> transactions = new ArrayList<>();
+   public static List<Transactions> transactions = new ArrayList<>();
    public static Scanner in = new Scanner(System.in);
 
     public static void homeScreen(){
@@ -102,7 +103,7 @@ public class ScreenManager {
                 (H) Go Home
                 Please select an option:""");
 
-        in.nextLine();
+     //   in.nextLine();
 
         String choice;
         choice = in.nextLine().toUpperCase();
@@ -265,6 +266,7 @@ public class ScreenManager {
 
     private static void displayPayments() {
         System.out.println("\nDisplaying Payments:\n");
+        transactions = LedgerDAO.getFromDatabase();
         transactions.stream()
                 .filter(t -> t.getAmount() < 0)
                 .forEach(System.out::println); // Assumes Transactions has a proper toString()
@@ -282,6 +284,7 @@ public class ScreenManager {
 
     private static void displayDeposit() {
         System.out.println("\nDisplaying Deposits:\n");
+        transactions = LedgerDAO.getFromDatabase();
         transactions.stream()
                 .filter(t -> t.getAmount() > 0)
                 .forEach(System.out::println); // Assumes Transactions has a proper toString()
@@ -298,6 +301,7 @@ public class ScreenManager {
 
     private static void displayAll(Scanner in) {
         System.out.println("\nDisplaying All Transactions:\n");
+        transactions = LedgerDAO.getFromDatabase();
         if (transactions.isEmpty()) {
             System.out.println("No transactions found.");
         } else {
@@ -308,7 +312,6 @@ public class ScreenManager {
         System.out.println("\nPress Enter to return to the Ledger Home Screen...");
         in.nextLine(); // Wait for user to press Enter
         displayLedger(in); // Return to the Ledger screen
-
 
     }
 

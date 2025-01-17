@@ -3,11 +3,13 @@ package com.Pluralsight;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.TypedQuery;
 import org.hibernate.Transaction;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -26,7 +28,19 @@ public class LedgerDAO {
         System.out.println("Transaction saved successfully!");
     }
 
-    public void getFromCSV(){
+    public static List<Transactions> getFromDatabase(){
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("test-unit");
+        EntityManager em = emf.createEntityManager();
+        String jpql = "SELECT t FROM Transactions t";
+
+        TypedQuery<Transactions> query = em.createQuery(jpql, Transactions.class);
+        List<Transactions> list = query.getResultList();
+        em.close();
+        emf.close();
+        return list;
+    }
+
+    public static void getFromCSV(){
 
         try{
             FileWriter fileWriter = new FileWriter("src/main/resources/transactions.csv", true);
@@ -38,7 +52,10 @@ public class LedgerDAO {
             bufferedReader.readLine(); // Skip line with the column headings
             String line ;
             while( (line=bufferedReader.readLine())!=null ){
-                transactions.add(new Transactions(line));
+                Transactions transactions1 = new Transactions(line);
+                transactions.add(transactions1);
+                addToDatabase(transactions1);
+                addToDatabase(transactions1);
             }
            /*
            Transaction::getDate extracts the date from a Transaction object
