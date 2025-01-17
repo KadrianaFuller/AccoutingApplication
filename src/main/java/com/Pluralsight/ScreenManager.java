@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class ScreenManager {
 
-    ArrayList<Transactions> transactions = new ArrayList<>();
+   public static ArrayList<Transactions> transactions = new ArrayList<>();
    public static Scanner in = new Scanner(System.in);
 
     public static void homeScreen(){
@@ -134,8 +134,6 @@ public class ScreenManager {
                 in.nextLine();
         }
 
-
-
     }
 
     private static void goHome() {
@@ -186,29 +184,129 @@ public class ScreenManager {
     }
 
     private static void searchByVendor() {
+        System.out.print("\nEnter Vendor Name: ");
+        String vendor = in.nextLine();
+
+        System.out.println("\nSearch Results for Vendor: " + vendor + "\n");
+
+        transactions.stream()
+                .filter(t -> t.getVendor().equalsIgnoreCase(vendor))
+                .forEach(System.out::println);
+
+        if (transactions.stream().noneMatch(t -> t.getVendor().equalsIgnoreCase(vendor))) {
+            System.out.println("No entries found for vendor: " + vendor);
+        }
+
+        promptReturnToReports();
     }
 
     private static void runPreviousYearReport() {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime startOfLastYear = now.minusYears(1).withDayOfYear(1);
+        LocalDateTime endOfLastYear = now.withDayOfYear(1);
+
+        System.out.println("\nPrevious Year Report:\n");
+
+        transactions.stream()
+                .filter(t -> {
+                    LocalDateTime transactionDate = LocalDateTime.parse(t.getDate());
+                    return !transactionDate.isBefore(startOfLastYear) && transactionDate.isBefore(endOfLastYear);
+                })
+                .forEach(System.out::println);
+
+        promptReturnToReports();
     }
 
     private static void runYearToDateReport() {
+        LocalDateTime startOfYear = LocalDateTime.now().withDayOfYear(1);
+        System.out.println("\nYear to Date Report:\n");
+
+        transactions.stream()
+                .filter(t -> LocalDateTime.parse(t.getDate()).isAfter(startOfYear))
+                .forEach(System.out::println);
+
+        promptReturnToReports();
     }
 
     private static void runPreviousMonthReport() {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime startOfLastMonth = now.minusMonths(1).withDayOfMonth(1);
+        LocalDateTime endOfLastMonth = now.withDayOfMonth(1);
+
+        System.out.println("\nPrevious Month Report:\n");
+
+        transactions.stream()
+                .filter(t -> {
+                    LocalDateTime transactionDate = LocalDateTime.parse(t.getDate());
+                    return !transactionDate.isBefore(startOfLastMonth) && transactionDate.isBefore(endOfLastMonth);
+                })
+                .forEach(System.out::println);
+
+        promptReturnToReports();
     }
 
     private static void runMonthToDateReport() {
+        LocalDateTime startOfMonth = LocalDateTime.now().withDayOfMonth(1);
+        System.out.println("\nMonth to Date Report:\n");
+
+        transactions.stream()
+                .filter(t -> LocalDateTime.parse(t.getDate()).isAfter(startOfMonth))
+                .forEach(System.out::println);
+
+        promptReturnToReports();
+
+    }
+
+    private static void promptReturnToReports() {
+        System.out.println("\nPress Enter to return to the Reports Menu...");
+        in.nextLine();
     }
 
     private static void displayPayments() {
+        System.out.println("\nDisplaying Payments:\n");
+        transactions.stream()
+                .filter(t -> t.getAmount() < 0)
+                .forEach(System.out::println); // Assumes Transactions has a proper toString()
+
+        if (transactions.stream().noneMatch(t -> t.getAmount() < 0)) {
+            System.out.println("No payment transactions found.");
+        }
+
+        System.out.println("\nPress Enter to return to the Ledger Home Screen...");
+        in.nextLine();
+        displayLedger(in); // Return to the Ledger menu
 
 
     }
 
     private static void displayDeposit() {
+        System.out.println("\nDisplaying Deposits:\n");
+        transactions.stream()
+                .filter(t -> t.getAmount() > 0)
+                .forEach(System.out::println); // Assumes Transactions has a proper toString()
+
+        if (transactions.stream().noneMatch(t -> t.getAmount() > 0)) {
+            System.out.println("No deposit transactions found.");
+        }
+
+        System.out.println("\nPress Enter to return to the Ledger Home Screen...");
+        in.nextLine();
+        displayLedger(in); // Return to the Ledger menu
+
     }
 
     private static void displayAll(Scanner in) {
+        System.out.println("\nDisplaying All Transactions:\n");
+        if (transactions.isEmpty()) {
+            System.out.println("No transactions found.");
+        } else {
+            for (Transactions transaction : transactions) {
+                System.out.println(transaction); // Assumes Transactions has a proper toString() method
+            }
+        }
+        System.out.println("\nPress Enter to return to the Ledger Home Screen...");
+        in.nextLine(); // Wait for user to press Enter
+        displayLedger(in); // Return to the Ledger screen
 
 
 
@@ -235,11 +333,6 @@ public class ScreenManager {
         in.nextLine();
 
     }
-
-
-
-
-
 
 }
 
