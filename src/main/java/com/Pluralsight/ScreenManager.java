@@ -1,5 +1,6 @@
 package com.Pluralsight;
 
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -11,9 +12,9 @@ import java.util.Scanner;
 public class ScreenManager {
 
     ArrayList<Transactions> transactions = new ArrayList<>();
-    Scanner in = new Scanner(System.in);
+   public static Scanner in = new Scanner(System.in);
 
-    public void homeScreen(){
+    public static void homeScreen(){
         int options; // used to define my options to store user's selection
         while (true){ // Created while loop so home screen can continue until you exit.
             System.out.print("""
@@ -107,25 +108,31 @@ public class ScreenManager {
         choice = in.nextLine().toUpperCase();
         switch (choice){
             case "A":
+            case "a":
                 displayAll(in);
                 break;
             case "D":
+            case "d":
                 displayDeposit();
                 break;
             case "P":
+            case "p":
                 displayPayments();
                 break;
             case "R":
+            case "r":
                 displayReports();
                 break;
 
-            case "H": goHome();
+            case "H":
+            case "h":
+                goHome();
                 break;
             default:
                 System.out.println("Invalid choice. Try Again.");
                 displayLedger(in); // if they choose the wrong letter this will allow the prompt to start over
 
-                in.nextLine();;
+                in.nextLine();
         }
 
 
@@ -133,18 +140,77 @@ public class ScreenManager {
     }
 
     private static void goHome() {
+        System.out.println("Returning to Home Screen....");
+        homeScreen();
     }
 
     private static void displayReports() {
+        int option;
+        while (true){
+            System.out.print("""
+                
+                Reports Menu:
+                1. Month to Date
+                2. Previous Month
+                3. Year to Date
+                4. Previous Year
+                5. Search by Vendor
+                0. Back
+                Please select an option: """);
+
+            option = Integer.parseInt(in.nextLine());
+            switch (option) {
+                case 1:
+                    runMonthToDateReport();
+                    break;
+                case 2:
+                    runPreviousMonthReport();
+                    break;
+                case 3:
+                    runYearToDateReport();
+                    break;
+                case 4:
+                    runPreviousYearReport();
+                    break;
+                case 5:
+                    searchByVendor();
+                    break;
+                case 0:
+                    goHome();
+                    return; // Exit the method
+                default:
+                    System.out.println("Invalid option. Please try again.");
+            }
+
+        }
+
+    }
+
+    private static void searchByVendor() {
+    }
+
+    private static void runPreviousYearReport() {
+    }
+
+    private static void runYearToDateReport() {
+    }
+
+    private static void runPreviousMonthReport() {
+    }
+
+    private static void runMonthToDateReport() {
     }
 
     private static void displayPayments() {
+
+
     }
 
     private static void displayDeposit() {
     }
 
     private static void displayAll(Scanner in) {
+
 
 
     }
